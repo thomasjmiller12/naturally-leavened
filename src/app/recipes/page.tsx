@@ -255,7 +255,6 @@ export default function RecipesPage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={headerInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.1 * i, duration: 0.7 }}
-                layout
               >
                 <div
                   className={`group relative bg-warm-white/80 border border-golden/10 rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_8px_40px_-15px_rgba(212,163,115,0.12)] ${

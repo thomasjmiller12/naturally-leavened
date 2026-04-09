@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import FloatingParticles from "@/components/ui/FloatingParticles";
 
 type CalculatorTab = "dough" | "starter";
@@ -85,12 +85,15 @@ export default function CalculatorPage() {
             </div>
           </div>
 
+          <AnimatePresence mode="wait">
           {/* Dough Calculator */}
           {activeTab === "dough" && (
             <motion.div
+              key="dough"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
               className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12"
             >
               {/* Inputs */}
@@ -296,9 +299,11 @@ export default function CalculatorPage() {
           {/* Starter Calculator */}
           {activeTab === "starter" && (
             <motion.div
+              key="starter"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
               className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12"
             >
               {/* Inputs */}
@@ -488,6 +493,7 @@ export default function CalculatorPage() {
               </div>
             </motion.div>
           )}
+          </AnimatePresence>
 
           {/* Baker's percentages explanation */}
           <motion.div
