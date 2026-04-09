@@ -42,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${playfair.variable} ${dmSans.variable}`}>
       <body className="bg-cream text-charcoal font-sans antialiased grain-overlay">
         <Header />
         <main className="min-h-screen">{children}</main>

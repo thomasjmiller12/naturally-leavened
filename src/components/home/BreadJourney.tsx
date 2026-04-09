@@ -352,7 +352,7 @@ export default function BreadJourney() {
                 >
                   {/* Feature #6: Illustration breathing — subtle scale pulse */}
                   <div
-                    className={isActive ? "w-full h-full animate-breathe-subtle" : "w-full h-full"}
+                    className={isActive ? "relative w-full h-full animate-breathe-subtle" : "relative w-full h-full"}
                   >
                     <Image
                       src={s.illustration}
