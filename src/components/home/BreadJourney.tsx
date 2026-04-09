@@ -250,6 +250,8 @@ export default function BreadJourney() {
   }, [activeStage, prevStage]);
 
   useEffect(() => {
+    let trigger: { kill: () => void; revert: () => void } | null = null;
+
     const loadGsap = async () => {
       const gsap = (await import("gsap")).default;
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
@@ -258,7 +260,7 @@ export default function BreadJourney() {
       const totalStages = stages.length;
       const scrollPerStage = window.innerHeight * 1.2;
 
-      ScrollTrigger.create({
+      trigger = ScrollTrigger.create({
         trigger: containerRef.current,
         start: "top top",
         end: `+=${totalStages * scrollPerStage}`,
@@ -272,13 +274,14 @@ export default function BreadJourney() {
           setActiveStage(stageIndex);
         },
       });
-
-      return () => {
-        ScrollTrigger.getAll().forEach((t) => t.kill());
-      };
     };
 
     loadGsap();
+
+    return () => {
+      trigger?.revert();
+      trigger?.kill();
+    };
   }, []);
 
   const stage = stages[activeStage];
