@@ -302,7 +302,7 @@ export default function BreadJourney() {
 
   return (
     <div>
-    <section ref={containerRef} className="relative h-screen overflow-hidden">
+    <section ref={containerRef} className="relative h-dvh overflow-hidden">
       {/* Feature #7: Dynamic warm background */}
       <div className="absolute inset-0 transition-all duration-1000" style={bgStyle} />
 
@@ -318,7 +318,7 @@ export default function BreadJourney() {
       <CursorTrail containerRef={containerRef} />
 
       {/* Main content — illustration left, text right */}
-      <div className="relative z-10 h-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 px-6 lg:px-16 max-w-7xl mx-auto">
+      <div className="relative z-10 h-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 px-6 lg:px-16 pt-32 lg:pt-0 max-w-7xl mx-auto">
         {/* Left: Illustration */}
         <div
           ref={illustrationRef}

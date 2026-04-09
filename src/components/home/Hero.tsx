@@ -19,7 +19,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative h-screen flex items-center justify-center overflow-hidden"
+      className="relative h-dvh flex items-center justify-center overflow-hidden"
     >
       {/* Background image with gradient overlay */}
       <motion.div style={{ scale }} className="absolute inset-0">
