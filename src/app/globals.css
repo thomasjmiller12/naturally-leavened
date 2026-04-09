@@ -1,0 +1,196 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* ─── Color Palette: Warm, Earthy, Baking-Inspired ─── */
+  --color-cream: #FFF8F0;
+  --color-warm-white: #FEFCF6;
+  --color-golden: #D4A373;
+  --color-golden-light: #E8C9A0;
+  --color-golden-dark: #B8864E;
+  --color-honey: #C8915A;
+  --color-brown-dark: #3D2B1F;
+  --color-brown-medium: #5C3D2E;
+  --color-brown-light: #8B6F5E;
+  --color-sage: #8B9E82;
+  --color-sage-light: #B5C4AD;
+  --color-sage-dark: #6B7E62;
+  --color-charcoal: #2C2C2C;
+  --color-warm-gray: #6B6558;
+  --color-background: #FFF8F0;
+  --color-foreground: #2C2C2C;
+
+  /* ─── Typography ─── */
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-dm-sans);
+
+  /* ─── Animations ─── */
+  --animate-float: float 20s infinite linear;
+  --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
+  --animate-pulse-glow: pulseGlow 3s infinite ease-in-out;
+  --animate-grain: grain 8s steps(10) infinite;
+  --animate-breathe: breathe 4s infinite ease-in-out;
+  --animate-bob: bob 3s infinite ease-in-out;
+}
+
+/* ─── Base Styles ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-golden);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-honey);
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: var(--color-golden-light);
+  color: var(--color-brown-dark);
+}
+
+/* ─── Keyframes ─── */
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.6;
+  }
+  95% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(212, 163, 115, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(212, 163, 115, 0.5);
+  }
+}
+
+@keyframes grain {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-5%, -10%);
+  }
+  20% {
+    transform: translate(-15%, 5%);
+  }
+  30% {
+    transform: translate(7%, -25%);
+  }
+  40% {
+    transform: translate(-5%, 25%);
+  }
+  50% {
+    transform: translate(-15%, 10%);
+  }
+  60% {
+    transform: translate(15%, 0%);
+  }
+  70% {
+    transform: translate(0%, 15%);
+  }
+  80% {
+    transform: translate(3%, 35%);
+  }
+  90% {
+    transform: translate(-10%, 10%);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ─── Film Grain Overlay ─── */
+.grain-overlay::before {
+  content: "";
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background: transparent
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E")
+    repeat;
+  animation: grain 8s steps(10) infinite;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* ─── Organic Shape Morphing ─── */
+.blob-shape {
+  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Smooth Image Placeholders ─── */
+.image-placeholder {
+  background: linear-gradient(
+    135deg,
+    var(--color-golden-light) 0%,
+    var(--color-cream) 50%,
+    var(--color-sage-light) 100%
+  );
+}
