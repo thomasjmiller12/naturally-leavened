@@ -250,7 +250,8 @@ export default function BreadJourney() {
   }, [activeStage, prevStage]);
 
   useEffect(() => {
-    let trigger: { kill: () => void; revert: () => void } | null = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let trigger: any = null;
 
     const loadGsap = async () => {
       const gsap = (await import("gsap")).default;
