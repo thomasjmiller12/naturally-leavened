@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useLayoutEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -239,6 +239,8 @@ function ProgressLine({
 export default function BreadJourney() {
   const containerRef = useRef<HTMLDivElement>(null);
   const illustrationRef = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const triggerRef = useRef<any>(null);
   const [activeStage, setActiveStage] = useState(0);
   const [prevStage, setPrevStage] = useState(0);
 
@@ -250,9 +252,6 @@ export default function BreadJourney() {
   }, [activeStage, prevStage]);
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let trigger: any = null;
-
     const loadGsap = async () => {
       const gsap = (await import("gsap")).default;
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
@@ -261,7 +260,7 @@ export default function BreadJourney() {
       const totalStages = stages.length;
       const scrollPerStage = window.innerHeight * 1.2;
 
-      trigger = ScrollTrigger.create({
+      triggerRef.current = ScrollTrigger.create({
         trigger: containerRef.current,
         start: "top top",
         end: `+=${totalStages * scrollPerStage}`,
@@ -278,10 +277,14 @@ export default function BreadJourney() {
     };
 
     loadGsap();
+  }, []);
 
+  // Synchronous cleanup — must run BEFORE React removes DOM nodes
+  useLayoutEffect(() => {
     return () => {
-      trigger?.revert();
-      trigger?.kill();
+      triggerRef.current?.revert();
+      triggerRef.current?.kill();
+      triggerRef.current = null;
     };
   }, []);
 
@@ -298,6 +301,7 @@ export default function BreadJourney() {
   };
 
   return (
+    <div>
     <section ref={containerRef} className="relative h-screen overflow-hidden">
       {/* Feature #7: Dynamic warm background */}
       <div className="absolute inset-0 transition-all duration-1000" style={bgStyle} />
@@ -443,5 +447,6 @@ export default function BreadJourney() {
       {/* Bottom gradient fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cream to-transparent z-10 pointer-events-none" />
     </section>
+    </div>
   );
 }
