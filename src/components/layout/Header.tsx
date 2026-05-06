@@ -9,8 +9,33 @@ const navLinks = [
   { href: "/about", label: "About" },
   { href: "/classes", label: "Classes" },
   { href: "/recipes", label: "Recipes" },
-  { href: "/calculator", label: "Calculator" },
+  { href: "/contact", label: "Contact" },
 ];
+
+const INSTAGRAM_URL = "https://www.instagram.com/naturally_leavened/";
+
+const InstagramIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
+  <svg
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <rect
+      x={3}
+      y={3}
+      width={18}
+      height={18}
+      rx={5}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx={12} cy={12} r={4} strokeWidth={1.5} />
+    <circle cx={17.5} cy={6.5} r={1} fill="currentColor" stroke="none" />
+  </svg>
+);
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -77,6 +102,15 @@ export default function Header() {
                 <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-golden transition-all duration-500 ease-out group-hover:w-full" />
               </Link>
             ))}
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Naturally Leavened on Instagram"
+              className="text-brown-light hover:text-golden-dark transition-colors duration-300"
+            >
+              <InstagramIcon />
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -151,6 +185,20 @@ export default function Header() {
                   </Link>
                 </motion.div>
               ))}
+              <motion.a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Naturally Leavened on Instagram"
+                onClick={() => setMobileOpen(false)}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ delay: navLinks.length * 0.1, duration: 0.4 }}
+                className="mt-2 text-brown-dark hover:text-golden transition-colors duration-300"
+              >
+                <InstagramIcon className="w-7 h-7" />
+              </motion.a>
             </div>
           </motion.div>
         )}

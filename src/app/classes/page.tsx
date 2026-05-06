@@ -2,8 +2,9 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import Image from "next/image";
 import FloatingParticles from "@/components/ui/FloatingParticles";
+import ClassesGallery from "@/components/classes/ClassesGallery";
+import CalendlyEmbed from "@/components/classes/CalendlyEmbed";
 
 const classDetails = [
   {
@@ -26,9 +27,9 @@ const classDetails = [
   },
   {
     icon: "04",
-    title: "Bake & Take Home",
+    title: "Bake, Taste & Take Home",
     description:
-      "Watch your loaf go into the oven. While it bakes, we'll talk scoring techniques and troubleshooting. You leave with a warm loaf.",
+      "You'll taste a fresh loaf together in class while we cover scoring and troubleshooting. Then you'll take home your own shaped dough — ready to bake in your own oven, on your own timing.",
   },
 ];
 
@@ -43,18 +44,20 @@ const faqs = [
   },
   {
     q: "How long is the class?",
-    a: "Plan for about 4 hours. Sourdough takes time, and we don't rush it. There will be coffee, snacks, and plenty of time for questions.",
+    a: "Plan for about 3 hours. We don't serve coffee or snacks, but you'll get to taste fresh-baked bread together — and there's plenty of time for questions along the way.",
   },
   {
     q: "How many people per class?",
-    a: "We keep classes small — usually 6-8 people — so everyone gets personal attention and plenty of hands-on time with the dough.",
+    a: "Classes are kept small — usually 4–6 people — so everyone gets personal attention and plenty of hands-on time with the dough.",
   },
 ];
 
 export default function ClassesPage() {
   const detailsRef = useRef<HTMLDivElement>(null);
+  const bookingRef = useRef<HTMLDivElement>(null);
   const faqRef = useRef<HTMLDivElement>(null);
   const detailsInView = useInView(detailsRef, { once: true, margin: "-80px" });
+  const bookingInView = useInView(bookingRef, { once: true, margin: "-80px" });
   const faqInView = useInView(faqRef, { once: true, margin: "-80px" });
 
   return (
@@ -132,25 +135,8 @@ export default function ClassesPage() {
       <section className="py-20 sm:py-28 bg-warm-white/50">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Image placeholder */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative"
-            >
-              <div className="absolute -top-3 -right-3 w-full h-full border border-golden/15 rounded-2xl" />
-              <div className="relative aspect-square rounded-2xl overflow-hidden">
-                <Image
-                  src="/images/pumpkin-trio.jpg"
-                  alt="Three beautifully scored pumpkin-shaped sourdough loaves"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
-            </motion.div>
+            {/* Swipeable gallery */}
+            <ClassesGallery />
 
             {/* What's included list */}
             <motion.div
@@ -168,8 +154,8 @@ export default function ClassesPage() {
 
               <ul className="space-y-5">
                 {[
-                  "Your own sourdough starter (named and ready to go)",
-                  "A fresh loaf of bread you baked yourself",
+                  "Your own sourdough starter, ready to go",
+                  "A loaf of dough you made, ready to bake at home",
                   "A printed recipe card and feeding guide",
                   "Access to our online recipe collection",
                   "Confidence to bake at home",
@@ -206,6 +192,61 @@ export default function ClassesPage() {
               </ul>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Booking & Details */}
+      <section ref={bookingRef} className="py-20 sm:py-28 bg-warm-white/50">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={bookingInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <p className="text-[11px] tracking-[0.3em] uppercase text-golden-dark/60 mb-4">
+              Booking & Details
+            </p>
+            <h2 className="font-serif text-4xl text-brown-dark">
+              Book Your <span className="italic">Class</span>
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={bookingInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12"
+          >
+            {[
+              { label: "Location", value: "Castro Valley, CA" },
+              { label: "Class Size", value: "4–6 people" },
+              { label: "Investment", value: "$75 per person" },
+            ].map((pill) => (
+              <div
+                key={pill.label}
+                className="bg-warm-white/70 border border-golden/15 rounded-2xl px-6 py-5 text-center"
+              >
+                <p className="text-[10px] tracking-[0.3em] uppercase text-golden-dark/60 mb-2">
+                  {pill.label}
+                </p>
+                <p className="font-serif text-lg text-brown-dark">
+                  {pill.value}
+                </p>
+              </div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={bookingInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <h3 className="font-serif text-2xl text-brown-dark text-center mb-8">
+              Pick a time that <span className="italic">works for you</span>
+            </h3>
+            <CalendlyEmbed />
+          </motion.div>
         </div>
       </section>
 
@@ -263,20 +304,20 @@ export default function ClassesPage() {
           className="relative z-10 max-w-2xl mx-auto px-6 text-center"
         >
           <p className="text-[11px] tracking-[0.35em] uppercase text-golden/60 mb-6">
-            Reserve Your Spot
+            Prefer to text instead?
           </p>
           <h2 className="font-serif text-4xl sm:text-5xl text-cream mb-6">
-            Ready to get your hands in some{" "}
-            <span className="italic text-golden">dough</span>?
+            Have a <span className="italic text-golden">question</span> first?
           </h2>
           <p className="text-cream/50 mb-10 leading-relaxed">
-            Classes fill up quickly and are kept intentionally small. Text us to
-            check availability and reserve your spot.
+            If you&apos;d rather chat before booking — or want to ask about a
+            private class for your group — send a text and we&apos;ll get right
+            back to you.
           </p>
 
           <a
-            href="sms:+15551234567"
-            className="inline-flex items-center gap-3 px-10 py-5 bg-golden text-brown-dark font-medium tracking-wider uppercase text-sm rounded-full hover:bg-golden-light transition-all duration-300 shadow-[0_0_30px_rgba(212,163,115,0.2)] hover:shadow-[0_0_50px_rgba(212,163,115,0.3)]"
+            href="sms:+13855390544"
+            className="inline-flex items-center gap-3 px-8 py-4 border border-golden/40 text-cream font-medium tracking-wider uppercase text-sm rounded-full hover:bg-golden/10 hover:border-golden/60 transition-all duration-300"
           >
             <svg
               className="w-5 h-5"
@@ -291,7 +332,7 @@ export default function ClassesPage() {
                 d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"
               />
             </svg>
-            <span>Text (555) 123-4567</span>
+            <span>Text (385) 539-0544</span>
           </a>
 
           <p className="text-cream/30 text-xs mt-6">

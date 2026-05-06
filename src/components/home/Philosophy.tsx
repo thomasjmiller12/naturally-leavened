@@ -37,16 +37,17 @@ export default function Philosophy() {
                 </p>
                 <p className="font-serif text-3xl sm:text-4xl text-brown-dark leading-snug mt-2">
                   It just has to be{" "}
-                  <span className="italic text-golden-dark">made with care.</span>&rdquo;
+                  <span className="italic text-golden-dark">understood.</span>&rdquo;
                 </p>
               </blockquote>
 
               <div className="w-12 h-px bg-golden/40 mb-6" />
 
               <p className="text-brown-light/80 leading-relaxed mb-4">
-                As a food scientist, I spent years studying what makes bread
-                work at a molecular level. But the real secret? It&apos;s simpler
-                than any textbook makes it seem.
+                As a food scientist, I&apos;ve learned that great sourdough
+                isn&apos;t about complexity — it&apos;s about understanding the
+                &lsquo;why&rsquo; behind each step. And the real secret?
+                It&apos;s simpler than any online recipe makes it seem.
               </p>
               <p className="text-brown-light/80 leading-relaxed">
                 Naturally Leavened was born from a belief that everyone deserves

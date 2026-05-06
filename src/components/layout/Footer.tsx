@@ -30,7 +30,7 @@ export default function Footer() {
                 { href: "/about", label: "About Haylee" },
                 { href: "/classes", label: "Sourdough Classes" },
                 { href: "/recipes", label: "Recipes" },
-                { href: "/calculator", label: "Dough Calculator" },
+                { href: "/contact", label: "Contact" },
               ].map((link) => (
                 <Link
                   key={link.href}
@@ -55,7 +55,7 @@ export default function Footer() {
               Text us to sign up for a class.
             </p>
             <a
-              href="sms:+15551234567"
+              href="sms:+13855390544"
               className="inline-flex items-center gap-2 px-5 py-2.5 border border-golden/40 text-golden text-sm tracking-wider uppercase hover:bg-golden/10 transition-all duration-300 rounded-full"
             >
               <span>Text to Sign Up</span>
@@ -73,6 +73,43 @@ export default function Footer() {
                 />
               </svg>
             </a>
+            <div className="mt-6 flex items-center gap-3">
+              <a
+                href="https://www.instagram.com/naturally_leavened/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Naturally Leavened on Instagram"
+                className="w-9 h-9 rounded-full border border-cream/15 text-cream/60 hover:text-golden hover:border-golden/40 transition-colors duration-300 flex items-center justify-center"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <rect
+                    x={3}
+                    y={3}
+                    width={18}
+                    height={18}
+                    rx={5}
+                    strokeWidth={1.5}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <circle cx={12} cy={12} r={4} strokeWidth={1.5} />
+                  <circle
+                    cx={17.5}
+                    cy={6.5}
+                    r={1}
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                </svg>
+              </a>
+              <span className="text-xs text-cream/40">@naturally_leavened</span>
+            </div>
           </div>
         </div>
 
