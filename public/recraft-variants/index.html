@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pick your favorite illustrations · Naturally Leavened</title>
+    <style>
+      :root {
+        --cream: #fff8f0;
+        --warm-white: #faf7f0;
+        --golden: #d4a373;
+        --golden-dark: #b8865a;
+        --brown-dark: #5c3d2e;
+        --brown-light: #8b6f5e;
+        --sage: #8b9e82;
+        --border: rgba(212, 163, 115, 0.18);
+        --picked: #5a8a4f;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+          sans-serif;
+        background: var(--cream);
+        color: var(--brown-dark);
+        padding: 32px 20px 200px;
+      }
+      .wrap { max-width: 1200px; margin: 0 auto; }
+      header { margin-bottom: 32px; }
+      h1 {
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 400;
+        font-size: clamp(28px, 5vw, 44px);
+        margin: 0 0 8px;
+      }
+      h1 em { color: var(--golden-dark); font-style: italic; }
+      .lede { color: var(--brown-light); margin: 0 0 20px; max-width: 720px; }
+      .nav-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0 0 24px;
+      }
+      .nav-pills a {
+        padding: 6px 14px;
+        background: var(--warm-white);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        text-decoration: none;
+        color: var(--brown-dark);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .nav-pills a:hover { background: white; border-color: var(--golden); }
+      section { margin-bottom: 56px; scroll-margin-top: 24px; }
+      .stage-head { margin-bottom: 8px; }
+      h2 {
+        font-family: Georgia, serif;
+        font-weight: 400;
+        font-size: clamp(22px, 4vw, 30px);
+        margin: 0 0 4px;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.25em;
+        color: var(--golden-dark);
+        margin-bottom: 8px;
+      }
+      .feedback {
+        font-size: 14px;
+        color: var(--brown-light);
+        font-style: italic;
+        margin: 0 0 20px;
+        padding-left: 12px;
+        border-left: 2px solid var(--golden);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 14px;
+      }
+      figure {
+        margin: 0;
+        background: white;
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.2s;
+        position: relative;
+      }
+      figure:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px -10px rgba(212, 163, 115, 0.4);
+      }
+      figure.current {
+        border-color: var(--sage);
+        background: rgba(139, 158, 130, 0.06);
+        cursor: default;
+      }
+      figure.current:hover { transform: none; box-shadow: none; }
+      figure.picked {
+        border-color: var(--picked);
+        background: rgba(90, 138, 79, 0.08);
+        box-shadow: 0 0 0 3px rgba(90, 138, 79, 0.18);
+      }
+      figure img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: contain;
+        background: white;
+        pointer-events: none;
+      }
+      figcaption {
+        padding: 8px 12px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--warm-white);
+        border-top: 1px solid var(--border);
+        gap: 8px;
+      }
+      figcaption .label {
+        font-weight: 500;
+        text-transform: lowercase;
+      }
+      figure.current figcaption .label { color: var(--sage); }
+      figure.picked figcaption .label { color: var(--picked); font-weight: 600; }
+      figure.picked::after {
+        content: "✓";
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--picked);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(90, 138, 79, 0.4);
+      }
+      .open-link {
+        color: var(--golden-dark);
+        text-decoration: none;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .open-link:hover { color: var(--brown-dark); }
+      .empty {
+        padding: 40px;
+        text-align: center;
+        color: var(--brown-light);
+        font-style: italic;
+      }
+      .summary-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top: 1px solid var(--border);
+        padding: 14px 20px;
+        box-shadow: 0 -4px 20px -8px rgba(92, 61, 46, 0.15);
+        z-index: 50;
+      }
+      .summary-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .summary-text {
+        flex: 1;
+        min-width: 0;
+        font-size: 14px;
+        color: var(--brown-dark);
+      }
+      .summary-text strong { color: var(--picked); }
+      .summary-text .pending {
+        color: var(--brown-light);
+        font-style: italic;
+      }
+      .copy-btn {
+        padding: 10px 20px;
+        background: var(--golden);
+        color: var(--brown-dark);
+        border: none;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .copy-btn:hover { background: var(--golden-dark); color: white; }
+      .copy-btn.copied { background: var(--picked); color: white; }
+      .copy-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      .reset-btn {
+        background: none;
+        border: 1px solid var(--border);
+        color: var(--brown-light);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .reset-btn:hover { color: var(--brown-dark); border-color: var(--brown-light); }
+      @media (max-width: 600px) {
+        .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Pick your favorite <em>illustrations</em></h1>
+        <p class="lede">
+          Hi Hay! 💛 Tap any variant to pick it as your favorite for that stage.
+          The sage-bordered tile is what's on the live site right now (for
+          comparison). When you're done, hit the button at the bottom to copy
+          your picks and send them to Tommy.
+        </p>
+        <nav class="nav-pills">
+          <a href="#starter">Starter</a>
+          <a href="#mix">Mix</a>
+          <a href="#rise">Rise</a>
+          <a href="#score">Score</a>
+          <a href="#bake">Bake</a>
+        </nav>
+      </header>
+
+      <section id="starter" data-stage="starter" data-current="/images/journey/01-starter.svg">
+        <div class="stage-head">
+          <span class="tag">A.a — remove bubbles</span>
+          <h2>The Starter</h2>
+          <p class="feedback">"The bubbles need to go."</p>
+        </div>
+        <div class="grid"></div>
+      </section>
+
+      <section id="mix" data-stage="mix" data-current="/images/journey/02-mix.svg">
+        <div class="stage-head">
+          <span class="tag">A.b — sourdough spatula</span>
+          <h2>The Mix</h2>
+          <p class="feedback">"Change the spatula to a sourdough one — the curved bowl scraper."</p>
+        </div>
+        <div class="grid"></div>
+      </section>
+
+      <section id="rise" data-stage="rise" data-current="/images/journey/04-proof.svg">
+        <div class="stage-head">
+          <span class="tag">A.c — uniform loaf, no spiral</span>
+          <h2>The Rise</h2>
+          <p class="feedback">"What is spiral? Looks like a cinnamon roll. Should just be a uniform loaf."</p>
+        </div>
+        <div class="grid"></div>
+      </section>
+
+      <section id="score" data-stage="score" data-current="/images/journey/05-score.svg">
+        <div class="stage-head">
+          <span class="tag">A.d — bread lame</span>
+          <h2>The Score</h2>
+          <p class="feedback">"Change the blade to a sourdough one (a bread lame, not a kitchen knife)."</p>
+        </div>
+        <div class="grid"></div>
+      </section>
+
+      <section id="bake" data-stage="bake" data-current="/images/journey/06-bloom.svg">
+        <div class="stage-head">
+          <span class="tag">A.e — Le Creuset classic red</span>
+          <h2>The Bake</h2>
+          <p class="feedback">"Change the pot to my red — Le Creuset classic red. Brighter than rust."</p>
+        </div>
+        <div class="grid"></div>
+      </section>
+    </div>
+
+    <div class="summary-bar">
+      <div class="summary-inner">
+        <div class="summary-text" id="summaryText">
+          <span class="pending">Tap any tile to start picking…</span>
+        </div>
+        <button class="reset-btn" id="resetBtn" type="button">Reset</button>
+        <button class="copy-btn" id="copyBtn" type="button" disabled>Copy picks</button>
+      </div>
+    </div>
+
+    <script>
+      const STAGES = ["starter", "mix", "rise", "score", "bake"];
+      const STORAGE_KEY = "nl-illustration-picks-v1";
+      const picks = loadPicks();
+
+      function loadPicks() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+        } catch { return {}; }
+      }
+      function savePicks() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(picks));
+      }
+
+      async function probeVariants(stage, max = 40) {
+        const found = [];
+        for (let i = 1; i <= max; i++) {
+          const url = `./${stage}/v${i}.svg`;
+          try {
+            const r = await fetch(url, { method: "HEAD" });
+            if (r.ok) found.push({ index: i, url });
+            else if (i > found.length) break;
+          } catch {
+            break;
+          }
+        }
+        return found;
+      }
+
+      function makeFigure({ stage, label, src, isCurrent, variantIndex }) {
+        const fig = document.createElement("figure");
+        if (isCurrent) fig.classList.add("current");
+        if (!isCurrent && picks[stage] === variantIndex) fig.classList.add("picked");
+        fig.dataset.stage = stage;
+        if (variantIndex != null) fig.dataset.variant = variantIndex;
+
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = `${stage} ${label}`;
+        img.loading = "lazy";
+
+        const cap = document.createElement("figcaption");
+        const labelEl = document.createElement("span");
+        labelEl.className = "label";
+        labelEl.textContent = label;
+        const link = document.createElement("a");
+        link.className = "open-link";
+        link.href = src;
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = "open";
+        link.addEventListener("click", (e) => e.stopPropagation());
+        cap.append(labelEl, link);
+
+        fig.append(img, cap);
+
+        if (!isCurrent) {
+          fig.addEventListener("click", () => {
+            picks[stage] = variantIndex;
+            savePicks();
+            renderPicks(stage);
+            updateSummary();
+          });
+        }
+
+        return fig;
+      }
+
+      function renderPicks(stage) {
+        const grid = document.querySelector(`section[data-stage="${stage}"] .grid`);
+        if (!grid) return;
+        grid.querySelectorAll("figure").forEach((fig) => {
+          if (fig.classList.contains("current")) return;
+          const idx = Number(fig.dataset.variant);
+          fig.classList.toggle("picked", picks[stage] === idx);
+        });
+      }
+
+      function updateSummary() {
+        const out = STAGES.map((s) =>
+          picks[s] ? `<strong>${s} v${picks[s]}</strong>` : `<span class="pending">${s} —</span>`
+        ).join(" · ");
+        document.getElementById("summaryText").innerHTML = out;
+        const anyPicked = STAGES.some((s) => picks[s]);
+        document.getElementById("copyBtn").disabled = !anyPicked;
+      }
+
+      async function init() {
+        await Promise.all(
+          document.querySelectorAll("section[data-stage]").forEach
+            ? Array.from(document.querySelectorAll("section[data-stage]")).map(
+                async (section) => {
+                  const stage = section.dataset.stage;
+                  const currentSrc = section.dataset.current;
+                  const grid = section.querySelector(".grid");
+                  const variants = await probeVariants(stage);
+                  if (!variants.length) {
+                    const empty = document.createElement("div");
+                    empty.className = "empty";
+                    empty.textContent = "No variants generated yet for this stage.";
+                    grid.appendChild(empty);
+                  } else {
+                    for (const v of variants) {
+                      grid.appendChild(
+                        makeFigure({
+                          stage,
+                          label: `v${v.index}`,
+                          src: v.url,
+                          isCurrent: false,
+                          variantIndex: v.index,
+                        })
+                      );
+                    }
+                  }
+                  grid.appendChild(
+                    makeFigure({
+                      stage,
+                      label: "current",
+                      src: currentSrc,
+                      isCurrent: true,
+                    })
+                  );
+                }
+              )
+            : []
+        );
+        updateSummary();
+      }
+
+      document.getElementById("copyBtn").addEventListener("click", async () => {
+        const lines = STAGES.filter((s) => picks[s]).map(
+          (s) => `${s}: v${picks[s]}`
+        );
+        const text = lines.join(", ");
+        try {
+          await navigator.clipboard.writeText(text);
+          const btn = document.getElementById("copyBtn");
+          btn.classList.add("copied");
+          btn.textContent = "Copied! Send it to Tommy 💛";
+          setTimeout(() => {
+            btn.classList.remove("copied");
+            btn.textContent = "Copy picks";
+          }, 3000);
+        } catch {
+          prompt("Copy this and send to Tommy:", text);
+        }
+      });
+
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        if (!confirm("Clear all your picks?")) return;
+        for (const s of STAGES) delete picks[s];
+        savePicks();
+        STAGES.forEach(renderPicks);
+        updateSummary();
+      });
+
+      init();
+    </script>
+  </body>
+</html>
