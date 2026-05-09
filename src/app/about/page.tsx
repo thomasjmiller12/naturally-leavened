@@ -111,8 +111,8 @@ export default function AboutPage() {
               <div className="absolute -top-3 -left-3 w-full h-full border border-sage/20 rounded-2xl" />
               <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/boule-outdoors.jpg"
-                  alt="Haylee holding a beautiful sourdough boule outdoors"
+                  src="/images/haylee-portrait.jpg"
+                  alt="Haylee, the baker behind Naturally Leavened"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"

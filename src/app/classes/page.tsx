@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import FloatingParticles from "@/components/ui/FloatingParticles";
-import ClassesGallery from "@/components/classes/ClassesGallery";
+import PolaroidStack from "@/components/classes/PolaroidStack";
 import CalendlyEmbed from "@/components/classes/CalendlyEmbed";
 
 const classDetails = [
@@ -135,8 +135,8 @@ export default function ClassesPage() {
       <section className="py-20 sm:py-28 bg-warm-white/50">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Swipeable gallery */}
-            <ClassesGallery />
+            {/* Polaroid stack of class moments */}
+            <PolaroidStack />
 
             {/* What's included list */}
             <motion.div
