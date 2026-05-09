@@ -7,7 +7,7 @@ export default function CalendlyEmbed() {
     <>
       <div
         className="calendly-inline-widget rounded-2xl overflow-hidden border border-golden/15 bg-warm-white/40"
-        data-url="https://calendly.com/thomasjmiller12/sourdough-class?background_color=f0eee3&primary_color=15af42"
+        data-url="https://calendly.com/hey-lee-luo/30min?background_color=f0eee3&primary_color=15af42"
         style={{ minWidth: 320, height: 700 }}
       />
       <Script
