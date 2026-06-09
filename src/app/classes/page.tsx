@@ -221,7 +221,7 @@ export default function ClassesPage() {
             {[
               { label: "Location", value: "Castro Valley, CA" },
               { label: "Class Size", value: "4–6 people" },
-              { label: "Investment", value: "$75 per person" },
+              { label: "Investment", value: "$95 per person" },
             ].map((pill) => (
               <div
                 key={pill.label}
