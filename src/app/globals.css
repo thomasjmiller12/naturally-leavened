@@ -9,6 +9,7 @@
   --color-golden-dark: #B8864E;
   --color-honey: #C8915A;
   --color-brown-dark: #3D2B1F;
+  --color-brown-deep: #2C1E14;
   --color-brown-medium: #5C3D2E;
   --color-brown-light: #8B6F5E;
   --color-sage: #8B9E82;
@@ -23,15 +24,6 @@
   --font-serif: var(--font-playfair);
   --font-sans: var(--font-dm-sans);
 
-  /* ─── Animations ─── */
-  --animate-float: float 20s infinite linear;
-  --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
-  --animate-pulse-glow: pulseGlow 3s infinite ease-in-out;
-  --animate-grain: grain 8s steps(10) infinite;
-  --animate-breathe: breathe 4s infinite ease-in-out;
-  --animate-breathe-subtle: breathe-subtle 4s infinite ease-in-out;
-  --animate-bob: bob 3s infinite ease-in-out;
-  --animate-fade-out: fade-out-dot 0.6s ease-out forwards;
 }
 
 /* ─── Base Styles ─── */
@@ -67,7 +59,7 @@ body {
   color: var(--color-brown-dark);
 }
 
-/* ─── Keyframes ─── */
+/* ─── Floating flour particles (inner pages) ─── */
 @keyframes float {
   0% {
     transform: translateY(0) rotate(0deg);
@@ -85,154 +77,69 @@ body {
   }
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulseGlow {
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(212, 163, 115, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 50px rgba(212, 163, 115, 0.5);
-  }
-}
-
-@keyframes grain {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  10% {
-    transform: translate(-5%, -10%);
-  }
-  20% {
-    transform: translate(-15%, 5%);
-  }
-  30% {
-    transform: translate(7%, -25%);
-  }
-  40% {
-    transform: translate(-5%, 25%);
-  }
-  50% {
-    transform: translate(-15%, 10%);
-  }
-  60% {
-    transform: translate(15%, 0%);
-  }
-  70% {
-    transform: translate(0%, 15%);
-  }
-  80% {
-    transform: translate(3%, 35%);
-  }
-  90% {
-    transform: translate(-10%, 10%);
-  }
-}
-
-@keyframes breathe {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-@keyframes bob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* ─── Film Grain Overlay ─── */
-.grain-overlay::before {
-  content: "";
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  bottom: -50%;
-  width: 200%;
-  height: 200%;
-  background: transparent
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E")
-    repeat;
-  animation: grain 8s steps(10) infinite;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.4;
-}
-
-/* ─── Organic Shape Morphing ─── */
-.blob-shape {
-  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ─── Bread Journey: Flour Dust Burst ─── */
-@keyframes flour-drift {
-  0% {
-    opacity: var(--start-opacity, 0.5);
-    transform: translate(0, 0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(var(--drift-x, 30px), var(--drift-y, -30px)) scale(0.3);
-  }
-}
-
-/* ─── Bread Journey: Cursor Trail Fade ─── */
-@keyframes fade-out-dot {
-  0% {
-    opacity: 0.4;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.2);
-  }
-}
-
-.animate-fade-out {
-  animation: fade-out-dot 0.6s ease-out forwards;
-}
-
-/* ─── Bread Journey: Subtle Breathing for Active Illustration ─── */
-@keyframes breathe-subtle {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.012);
-  }
-}
-
-.animate-breathe-subtle {
-  animation: breathe-subtle 4s infinite ease-in-out;
-}
-
-/* ─── Smooth Image Placeholders ─── */
-.image-placeholder {
+/* ─── The Bake: the home page warms from raw dough to baked crust as you
+   scroll — one position-locked gradient spanning the whole page, with grain
+   texture that "firms up" toward the baked end. Stops are tuned to section
+   positions: light through the process ribbon (~60%, ink text), then
+   crust-dark for the cream-text sections below. ─── */
+.bake-bg {
   background: linear-gradient(
-    135deg,
-    var(--color-golden-light) 0%,
-    var(--color-cream) 50%,
-    var(--color-sage-light) 100%
+    to bottom,
+    #FBF3E8 0%,
+    #F7EBD9 12%,
+    #F2E3CB 24%,
+    #ECD9B4 35%,
+    #DFC093 44%,
+    #CDA065 52%,
+    #A8763C 60%,
+    #7E5733 67%,
+    #4F381F 77%,
+    #3D2B1F 86%,
+    #2C1E14 95%
   );
+}
+
+.bake-grain {
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.5;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 32%,
+    rgba(0, 0, 0, 0.5) 56%,
+    rgba(0, 0, 0, 0.95) 80%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 32%,
+    rgba(0, 0, 0, 0.5) 56%,
+    rgba(0, 0, 0, 0.95) 80%
+  );
+}
+
+/* ─── Hero scroll cue ─── */
+@keyframes cue {
+  0%,
+  100% {
+    transform: scaleY(0.5);
+    transform-origin: top;
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.animate-cue {
+  animation: cue 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-cue {
+    animation: none;
+  }
 }

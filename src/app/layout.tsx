@@ -44,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${playfair.variable} ${dmSans.variable}`}>
-      <body className="bg-cream text-charcoal font-sans antialiased grain-overlay">
+      <body className="bg-cream text-charcoal font-sans antialiased">
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />

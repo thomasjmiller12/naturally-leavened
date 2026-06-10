@@ -4,7 +4,9 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import FloatingParticles from "@/components/ui/FloatingParticles";
 import PolaroidStack from "@/components/classes/PolaroidStack";
-import CalendlyEmbed from "@/components/classes/CalendlyEmbed";
+import UpcomingSessions from "@/components/classes/UpcomingSessions";
+import Testimonials from "@/components/classes/Testimonials";
+import { TAKEAWAYS } from "@/lib/takeaways";
 
 const classDetails = [
   {
@@ -44,11 +46,11 @@ const faqs = [
   },
   {
     q: "How long is the class?",
-    a: "Plan for about 3 hours. We don't serve coffee or snacks, but you'll get to taste fresh-baked bread together — and there's plenty of time for questions along the way.",
+    a: "Plan for about 3 hours. We'll break into fresh-baked bread together near the end, with plenty of time for questions along the way.",
   },
   {
     q: "How many people per class?",
-    a: "Classes are kept small — usually 4–6 people — so everyone gets personal attention and plenty of hands-on time with the dough.",
+    a: "Classes are kept small — usually 2–4 people — so everyone gets personal attention and plenty of hands-on time with the dough.",
   },
 ];
 
@@ -152,48 +154,32 @@ export default function ClassesPage() {
                 You&apos;ll Walk Away <span className="italic">With</span>
               </h2>
 
-              <ul className="space-y-5">
-                {[
-                  "Your own sourdough starter, ready to go",
-                  "A loaf of dough you made, ready to bake at home",
-                  "A printed recipe card and feeding guide",
-                  "Access to our online recipe collection",
-                  "Confidence to bake at home",
-                  "New friends who love bread as much as you do",
-                ].map((item, i) => (
+              <ol className="space-y-5">
+                {TAKEAWAYS.map((item, i) => (
                   <motion.li
                     key={i}
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 + i * 0.08, duration: 0.5 }}
-                    className="flex items-start gap-3"
+                    className="flex items-baseline gap-4"
                   >
-                    <div className="w-5 h-5 rounded-full bg-golden/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <svg
-                        className="w-3 h-3 text-golden-dark"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2.5}
-                          d="M4.5 12.75l6 6 9-13.5"
-                        />
-                      </svg>
-                    </div>
+                    <span className="font-serif text-base text-golden-dark/80 w-6 flex-shrink-0 tabular-nums">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                     <span className="text-brown-light/80 text-sm leading-relaxed">
                       {item}
                     </span>
                   </motion.li>
                 ))}
-              </ul>
+              </ol>
             </motion.div>
           </div>
         </div>
       </section>
+
+      {/* Reviews (hidden until real reviews are added in src/lib/reviews.ts) */}
+      <Testimonials />
 
       {/* Booking & Details */}
       <section ref={bookingRef} className="py-20 sm:py-28 bg-warm-white/50">
@@ -220,7 +206,7 @@ export default function ClassesPage() {
           >
             {[
               { label: "Location", value: "Castro Valley, CA" },
-              { label: "Class Size", value: "4–6 people" },
+              { label: "Class Size", value: "2–4 people" },
               { label: "Investment", value: "$95 per person" },
             ].map((pill) => (
               <div
@@ -242,10 +228,13 @@ export default function ClassesPage() {
             animate={bookingInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <h3 className="font-serif text-2xl text-brown-dark text-center mb-8">
-              Pick a time that <span className="italic">works for you</span>
+            <h3 className="font-serif text-2xl text-brown-dark text-center mb-3">
+              Upcoming <span className="italic">classes</span>
             </h3>
-            <CalendlyEmbed />
+            <p className="text-sm text-brown-light/75 text-center max-w-md mx-auto mb-10">
+              Small by design — only a couple of seats open each session.
+            </p>
+            <UpcomingSessions />
           </motion.div>
         </div>
       </section>

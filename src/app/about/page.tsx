@@ -136,17 +136,19 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-4 text-brown-light/80 leading-relaxed">
                 <p>
-                  I never planned to become a bread baker. I was a food
-                  scientist — the kind of person who reads ingredient labels for
-                  fun and gets excited about the Maillard reaction. Bread was
-                  just... bread.
+                  I never planned to become a bread baker. For a couple of
+                  years I worked as an R&amp;D food scientist, developing food
+                  products in the lab — the kind of person who reads ingredient
+                  labels for fun and gets genuinely excited about the Maillard
+                  reaction. Back then, bread was just... bread.
                 </p>
                 <p>
                   Then a friend gave me a jar of sourdough starter, and
                   everything changed. I became fascinated by the living culture,
                   the way a few simple ingredients could transform into something
                   so complex and beautiful. I started baking every weekend, then
-                  every other day, then... well, you get the idea.
+                  every other day, then... well, you get the idea. That was four
+                  years ago, and I haven&apos;t stopped since.
                 </p>
                 <p>
                   What surprised me most was how simple it really is. All that

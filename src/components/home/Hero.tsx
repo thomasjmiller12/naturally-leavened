@@ -1,113 +1,109 @@
-"use client";
-
-import { useRef } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
-import FloatingParticles from "@/components/ui/FloatingParticles";
+import Link from "next/link";
+import Reveal from "@/components/ui/Reveal";
 
 export default function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-
   return (
-    <section
-      ref={ref}
-      className="relative h-dvh flex items-center justify-center overflow-hidden"
-    >
-      {/* Background image with gradient overlay */}
-      <motion.div style={{ scale }} className="absolute inset-0">
-        <Image
-          src="/images/hero-boule.jpg"
-          alt="Artisan sourdough boule"
-          fill
-          className="object-cover opacity-15"
-          sizes="100vw"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-warm-white/80 via-cream/90 to-cream" />
-      </motion.div>
+    <section className="relative min-h-dvh grid grid-cols-1 lg:grid-cols-[1fr_0.9fr] items-center gap-8 lg:gap-10 max-w-7xl mx-auto px-6 lg:px-8 pt-28 lg:pt-32 pb-16">
+      {/* Copy */}
+      <Reveal className="max-w-xl order-2 lg:order-1">
+        <p className="text-[11px] tracking-[0.32em] uppercase text-golden-dark mb-6">
+          Small-batch sourdough &middot; Castro Valley, CA
+        </p>
+        <h1 className="font-serif text-5xl sm:text-6xl lg:text-[4.5rem] leading-[1.02] text-brown-dark [letter-spacing:-0.4px]">
+          Sourdough is simpler
+          <br />
+          than you <em className="italic text-golden-dark">think.</em>
+        </h1>
+        <p className="text-lg leading-relaxed text-brown-medium mt-6 max-w-md">
+          Haylee&rsquo;s a food scientist who teaches hands-on classes for
+          people who are sure they&rsquo;re &lsquo;not a baker.&rsquo; Give her
+          one afternoon — she&rsquo;ll prove you wrong.
+        </p>
+        <div className="flex items-center flex-wrap gap-6 mt-9">
+          <Link
+            href="/classes"
+            className="inline-flex items-center gap-2.5 bg-golden text-brown-dark font-semibold text-sm tracking-wider uppercase px-8 py-4 rounded-full shadow-[0_12px_30px_-12px_rgba(184,134,78,0.65)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-golden-light hover:shadow-[0_18px_40px_-14px_rgba(184,134,78,0.7)]"
+          >
+            Book a class
+            <svg
+              className="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </Link>
+          <a
+            href="#learn"
+            className="text-sm font-semibold text-brown-medium border-b border-golden-dark/40 pb-1 transition-colors duration-300 hover:border-golden-dark"
+          >
+            See what you&rsquo;ll learn
+          </a>
+        </div>
+        <div className="flex items-center flex-wrap gap-4 mt-9 text-[13.5px] font-medium text-sage-dark">
+          <span>Groups of 2–4</span>
+          <span className="opacity-40">•</span>
+          <span>$95 per person</span>
+          <span className="opacity-40">•</span>
+          <span>About 3 hours</span>
+        </div>
+      </Reveal>
 
-      {/* Decorative circles */}
-      <div className="absolute top-1/4 -left-32 w-64 h-64 rounded-full bg-golden/5 blur-3xl" />
-      <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-sage/5 blur-3xl" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-golden/[0.03] blur-3xl" />
-
-      {/* Floating flour particles */}
-      <FloatingParticles count={30} color="golden" />
-
-      {/* Main content */}
-      <motion.div
-        style={{ y, opacity }}
-        className="relative z-10 text-center px-6 max-w-4xl mx-auto"
+      {/* Photography — the star, no longer ghosted behind text */}
+      <Reveal
+        delay={0.15}
+        className="relative order-1 lg:order-2 h-[50vh] min-h-[330px] lg:h-[74vh] lg:max-h-[620px]"
       >
-        {/* Small tagline above */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          className="text-[11px] tracking-[0.35em] uppercase text-brown-light/70 mb-8"
+        <div
+          aria-hidden
+          className="absolute -left-1.5 top-4 bottom-4 right-3.5 lg:top-8 lg:bottom-8 lg:right-7 border border-golden/40 rounded-[22px]"
+        />
+        <div className="relative w-full h-full rounded-[22px] overflow-hidden shadow-[0_36px_80px_-34px_rgba(92,61,46,0.5)]">
+          <Image
+            src="/images/class-1.jpg"
+            alt="A golden scored sourdough boule held up against a blue sky"
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 45vw"
+            priority
+          />
+        </div>
+        <Link
+          href="/about"
+          className="absolute bottom-7 lg:bottom-12 -left-2 lg:-left-4 flex items-center gap-3 bg-warm-white rounded-2xl px-5 py-3 shadow-[0_18px_40px_-14px_rgba(92,61,46,0.45)] transition-transform duration-300 hover:-translate-y-0.5"
         >
-          Artisan Sourdough &middot; Baking Classes &middot; Recipes
-        </motion.p>
-
-        {/* Brand name */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 1, ease: "easeOut" }}
-          className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-brown-dark leading-[0.9] mb-6"
-        >
-          Naturally
-          <br />
-          <span className="italic text-golden-dark">Leavened</span>
-        </motion.h1>
-
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
-          className="text-lg sm:text-xl text-brown-light/80 font-light max-w-lg mx-auto leading-relaxed"
-        >
-          Sourdough is simpler than you think.
-          <br />
-          <span className="text-brown-light/60">
-            Let&apos;s bake something beautiful together.
+          <span className="relative w-10 h-10 rounded-full overflow-hidden flex-none">
+            <Image
+              src="/images/haylee-portrait.jpg"
+              alt="Haylee"
+              fill
+              className="object-cover"
+              sizes="40px"
+            />
           </span>
-        </motion.p>
+          <span>
+            <span className="block font-serif italic text-[15px] text-brown-dark">
+              Taught by Haylee
+            </span>
+            <span className="block text-[11.5px] text-brown-light tracking-wide mt-px">
+              Food scientist &amp; baker
+            </span>
+          </span>
+        </Link>
+      </Reveal>
 
-        {/* Decorative line */}
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ delay: 1.2, duration: 1.2, ease: "easeInOut" }}
-          className="w-16 h-px bg-golden/50 mx-auto mt-10"
-        />
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3"
-      >
-        <span className="text-[10px] tracking-[0.3em] uppercase text-brown-light/40">
+      {/* Scroll cue */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2.5">
+        <span className="text-[10px] tracking-[0.3em] uppercase text-brown-light/50">
           Scroll
         </span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-8 bg-gradient-to-b from-golden/40 to-transparent"
-        />
-      </motion.div>
+        <i className="w-px h-8 bg-gradient-to-b from-golden-dark/50 to-transparent animate-cue" />
+      </div>
     </section>
   );
 }
