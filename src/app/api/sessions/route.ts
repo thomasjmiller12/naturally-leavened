@@ -18,7 +18,9 @@ const USERNAME = "haylee-luo-0ci8if";
 const EVENT_SLUG = "sourdough-class";
 const EVENT_TYPE_ID = 5958486;
 const TIMEZONE = "America/Los_Angeles";
-const WEEKS_AHEAD = 4; // how far out to surface classes
+const WEEKS_AHEAD = 52; // how far out to surface classes (a full year, so every
+// class date you set in Cal.com shows up — the schedule is override-only, so
+// only the specific dates you add ever appear)
 
 // Re-pull from Cal.com at most every 5 minutes.
 export const revalidate = 300;

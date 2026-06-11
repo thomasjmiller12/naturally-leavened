@@ -8,33 +8,6 @@ import UpcomingSessions from "@/components/classes/UpcomingSessions";
 import Testimonials from "@/components/classes/Testimonials";
 import { TAKEAWAYS } from "@/lib/takeaways";
 
-const classDetails = [
-  {
-    icon: "01",
-    title: "Meet Your Starter",
-    description:
-      "You'll learn what a sourdough starter is, how to feed it, and how to tell when it's ready to bake. You'll take one home with you.",
-  },
-  {
-    icon: "02",
-    title: "Mix & Shape",
-    description:
-      "Hands-on time with the dough — from mixing your ingredients to stretching, folding, and shaping a beautiful loaf.",
-  },
-  {
-    icon: "03",
-    title: "The Science (Made Simple)",
-    description:
-      "Why does dough rise? What does salt actually do? We'll cover the food science behind sourdough in a way that actually makes sense.",
-  },
-  {
-    icon: "04",
-    title: "Bake, Taste & Take Home",
-    description:
-      "You'll taste a fresh loaf together in class while we cover scoring and troubleshooting. Then you'll take home your own shaped dough — ready to bake in your own oven, on your own timing.",
-  },
-];
-
 const faqs = [
   {
     q: "Do I need any baking experience?",
@@ -55,10 +28,8 @@ const faqs = [
 ];
 
 export default function ClassesPage() {
-  const detailsRef = useRef<HTMLDivElement>(null);
   const bookingRef = useRef<HTMLDivElement>(null);
   const faqRef = useRef<HTMLDivElement>(null);
-  const detailsInView = useInView(detailsRef, { once: true, margin: "-80px" });
   const bookingInView = useInView(bookingRef, { once: true, margin: "-80px" });
   const faqInView = useInView(faqRef, { once: true, margin: "-80px" });
 
@@ -88,49 +59,6 @@ export default function ClassesPage() {
           </p>
           <div className="w-16 h-px bg-golden/40 mx-auto mt-8" />
         </motion.div>
-      </section>
-
-      {/* What you'll learn */}
-      <section ref={detailsRef} className="py-20 sm:py-28">
-        <div className="max-w-5xl mx-auto px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={detailsInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <p className="text-[11px] tracking-[0.3em] uppercase text-golden-dark/60 mb-4">
-              The Curriculum
-            </p>
-            <h2 className="font-serif text-4xl text-brown-dark">
-              What You&apos;ll <span className="italic">Learn</span>
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {classDetails.map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 30 }}
-                animate={detailsInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.15 * i, duration: 0.8 }}
-                className="group relative p-8 bg-warm-white/60 border border-golden/10 rounded-2xl hover:border-golden/25 transition-all duration-500 hover:shadow-[0_8px_40px_-15px_rgba(212,163,115,0.12)]"
-              >
-                {/* Number */}
-                <span className="text-5xl font-serif text-golden/15 absolute top-4 right-6">
-                  {item.icon}
-                </span>
-
-                <h3 className="font-serif text-xl text-brown-dark mb-3 relative">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-brown-light/70 leading-relaxed relative">
-                  {item.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* What's included */}
@@ -299,9 +227,8 @@ export default function ClassesPage() {
             Have a <span className="italic text-golden">question</span> first?
           </h2>
           <p className="text-cream/50 mb-10 leading-relaxed">
-            If you&apos;d rather chat before booking — or want to ask about a
-            private class for your group — send a text and we&apos;ll get right
-            back to you.
+            Want to chat before booking, or ask about a private class for your
+            group? Send a text and we&apos;ll get right back to you.
           </p>
 
           <a
