@@ -22,19 +22,27 @@ const WEEKS_AHEAD = 52; // how far out to surface classes (a full year, so every
 // class date you set in Cal.com shows up — the schedule is override-only, so
 // only the specific dates you add ever appear)
 
-// Re-pull from Cal.com at most every 5 minutes.
-export const revalidate = 300;
+// Always fetch live from Cal.com — every visitor (and every page refresh) sees
+// the current dates the moment Haylee changes them, with no caching delay.
+// Traffic here is low, so the two small Cal.com calls per visit are a non-issue.
+export const dynamic = "force-dynamic";
 
 type RangeSlot = {
   start: string;
   end?: string;
+  // Cal.com's seated-event slot shape. Older payloads exposed `attendeesCount`;
+  // current ones return seatsBooked/seatsRemaining/seatsTotal. We read all of
+  // them so seat counts stay correct across either shape.
   attendeesCount?: number;
+  seatsBooked?: number;
+  seatsRemaining?: number;
+  seatsTotal?: number;
 };
 
 async function cal(path: string, version: string) {
   const res = await fetch(`https://api.cal.com/v2${path}`, {
     headers: { Authorization: `Bearer ${API_KEY}`, "cal-api-version": version },
-    next: { revalidate },
+    cache: "no-store",
   });
   if (!res.ok) {
     throw new Error(`Cal.com ${path} responded ${res.status}`);
@@ -78,9 +86,12 @@ export async function GET() {
 
     for (const day of Object.keys(byDay)) {
       for (const slot of byDay[day]) {
-        const taken = slot.attendeesCount ?? 0;
-        const spotsLeft = capacity ? Math.max(0, capacity - taken) : 0;
-        if (capacity && spotsLeft <= 0) continue; // full → don't show
+        const slotCapacity = slot.seatsTotal ?? capacity;
+        const taken = slot.seatsBooked ?? slot.attendeesCount ?? 0;
+        const spotsLeft =
+          slot.seatsRemaining ??
+          (slotCapacity ? Math.max(0, slotCapacity - taken) : 0);
+        if (slotCapacity && spotsLeft <= 0) continue; // full → don't show
         sessions.push({
           start: slot.start,
           durationMins,

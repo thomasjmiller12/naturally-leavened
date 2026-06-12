@@ -92,7 +92,7 @@ export default function UpcomingSessions() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/sessions")
+    fetch("/api/sessions", { cache: "no-store" })
       .then((r) => r.json() as Promise<ApiResponse>)
       .then((data) => {
         if (cancelled) return;

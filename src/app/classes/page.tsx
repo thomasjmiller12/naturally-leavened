@@ -61,8 +61,77 @@ export default function ClassesPage() {
         </motion.div>
       </section>
 
+      {/* Booking — dates first, then details. Placed up top so the very first
+          thing visitors see is when they can come and how to reserve a seat. */}
+      <section ref={bookingRef} className="py-20 sm:py-28 bg-warm-white/50">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8">
+          {/* Upcoming dates */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={bookingInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-10"
+          >
+            <p className="text-[11px] tracking-[0.3em] uppercase text-golden-dark/60 mb-4">
+              Reserve Your Spot
+            </p>
+            <h2 className="font-serif text-4xl text-brown-dark mb-3">
+              Upcoming <span className="italic">classes</span>
+            </h2>
+            <p className="text-sm text-brown-light/75 max-w-md mx-auto">
+              Small by design — only a couple of seats open each session.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={bookingInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.15 }}
+          >
+            <UpcomingSessions />
+          </motion.div>
+
+          {/* The details */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={bookingInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="mt-20 pt-16 border-t border-golden/10"
+          >
+            <div className="text-center mb-10">
+              <p className="text-[11px] tracking-[0.3em] uppercase text-golden-dark/60 mb-4">
+                Booking & Details
+              </p>
+              <h3 className="font-serif text-3xl text-brown-dark">
+                Book Your <span className="italic">Class</span>
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                { label: "Location", value: "Castro Valley, CA" },
+                { label: "Class Size", value: "2–4 people" },
+                { label: "Investment", value: "$95 per person" },
+              ].map((pill) => (
+                <div
+                  key={pill.label}
+                  className="bg-warm-white/70 border border-golden/15 rounded-2xl px-6 py-5 text-center"
+                >
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-golden-dark/60 mb-2">
+                    {pill.label}
+                  </p>
+                  <p className="font-serif text-lg text-brown-dark">
+                    {pill.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* What's included */}
-      <section className="py-20 sm:py-28 bg-warm-white/50">
+      <section className="py-20 sm:py-28">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Polaroid stack of class moments */}
@@ -108,64 +177,6 @@ export default function ClassesPage() {
 
       {/* Reviews (hidden until real reviews are added in src/lib/reviews.ts) */}
       <Testimonials />
-
-      {/* Booking & Details */}
-      <section ref={bookingRef} className="py-20 sm:py-28 bg-warm-white/50">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={bookingInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
-          >
-            <p className="text-[11px] tracking-[0.3em] uppercase text-golden-dark/60 mb-4">
-              Booking & Details
-            </p>
-            <h2 className="font-serif text-4xl text-brown-dark">
-              Book Your <span className="italic">Class</span>
-            </h2>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={bookingInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.15 }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12"
-          >
-            {[
-              { label: "Location", value: "Castro Valley, CA" },
-              { label: "Class Size", value: "2–4 people" },
-              { label: "Investment", value: "$95 per person" },
-            ].map((pill) => (
-              <div
-                key={pill.label}
-                className="bg-warm-white/70 border border-golden/15 rounded-2xl px-6 py-5 text-center"
-              >
-                <p className="text-[10px] tracking-[0.3em] uppercase text-golden-dark/60 mb-2">
-                  {pill.label}
-                </p>
-                <p className="font-serif text-lg text-brown-dark">
-                  {pill.value}
-                </p>
-              </div>
-            ))}
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={bookingInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            <h3 className="font-serif text-2xl text-brown-dark text-center mb-3">
-              Upcoming <span className="italic">classes</span>
-            </h3>
-            <p className="text-sm text-brown-light/75 text-center max-w-md mx-auto mb-10">
-              Small by design — only a couple of seats open each session.
-            </p>
-            <UpcomingSessions />
-          </motion.div>
-        </div>
-      </section>
 
       {/* FAQ */}
       <section ref={faqRef} className="py-20 sm:py-28">
