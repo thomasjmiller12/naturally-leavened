@@ -23,9 +23,13 @@ next-env.d.ts
 *.heic
 *.MOV
 
-# Local-only experiments (untracked in git; playground needs deps not in package.json)
-/src/app/playground/
-/src/components/playground/
+# Local-only experiments. The bread-lab playground needs 3D deps (three,
+# @react-three/*) that aren't in package.json, so it must stay out of the
+# build. Other playground routes (e.g. class-cards) only use installed deps
+# and are allowed through.
+/src/app/playground/bread-lab/
+/src/components/playground/BreadLabPlayground.tsx
+/src/components/playground/BreadLabThreeStudy.tsx
 /new photos/
 /scripts/
 /.claude/
