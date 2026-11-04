@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { HOLIDAY_OFFER_ENABLED } from "@/lib/holiday";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -44,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${playfair.variable} ${dmSans.variable}`}>
-      <body className="bg-cream text-charcoal font-sans antialiased">
+      <body className={`bg-cream text-charcoal font-sans antialiased ${HOLIDAY_OFFER_ENABLED ? "holiday-season" : ""}`}>
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />

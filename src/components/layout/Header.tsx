@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { HolidayStrip, WinterSprig } from "@/components/seasonal/Holiday";
+import { HOLIDAY_OFFER_ENABLED } from "@/lib/holiday";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -63,13 +65,14 @@ export default function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
           scrolled
-            ? "bg-cream/95 backdrop-blur-md shadow-[0_1px_0_rgba(212,163,115,0.2)] py-3"
-            : "bg-transparent py-5"
+            ? "bg-cream/95 backdrop-blur-md shadow-[0_1px_0_rgba(212,163,115,0.2)]"
+            : HOLIDAY_OFFER_ENABLED ? "bg-cream/95" : "bg-transparent"
         }`}
       >
-        <nav className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
+        <HolidayStrip />
+        <nav className={`max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between transition-all ${scrolled ? "py-3" : "py-5"}`}>
           {/* Logo / Brand */}
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="/" className="relative flex items-center gap-3 group">
             <div className="relative w-10 h-10 rounded-full overflow-hidden transition-transform duration-300 group-hover:scale-105">
               <Image
                 src="/images/logo.jpg"
@@ -88,6 +91,7 @@ export default function Header() {
                 Leavened
               </span>
             </div>
+            {HOLIDAY_OFFER_ENABLED && <WinterSprig className="holiday-brand-sprig" />}
           </Link>
 
           {/* Desktop Navigation */}

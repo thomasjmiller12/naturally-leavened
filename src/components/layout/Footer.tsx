@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { WinterSprig } from "@/components/seasonal/Holiday";
+import { HOLIDAY_OFFER_ENABLED } from "@/lib/holiday";
 
 export default function Footer() {
   return (
@@ -10,6 +12,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
+            {HOLIDAY_OFFER_ENABLED && <div className="holiday-footer-note"><WinterSprig /><span>Warm ovens. Full hearts.</span></div>}
             <h3 className="font-serif text-2xl text-cream mb-4">
               Naturally{" "}
               <span className="italic text-golden">Leavened</span>

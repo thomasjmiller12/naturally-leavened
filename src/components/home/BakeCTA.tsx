@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 
+import { CLASS_PRICE, HOLIDAY_OFFER_ENABLED, HOLIDAY_PRICE } from "@/lib/holiday";
+
 const stats = [
   { value: "2–4", label: "per class" },
   { value: "3 hrs", label: "hands-on" },
-  { value: "$95", label: "all included" },
+  { value: `$${HOLIDAY_OFFER_ENABLED ? HOLIDAY_PRICE : CLASS_PRICE}`, label: HOLIDAY_OFFER_ENABLED ? "holiday special" : "all included" },
 ];
 
 export default function BakeCTA() {
