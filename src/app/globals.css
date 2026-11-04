@@ -146,11 +146,34 @@ body {
 
 /* Holiday stationery: existing flour/ink palette, with evergreen and cranberry. */
 .holiday-season {
+  --color-cream: #E3D3BF;
+  --color-background: #E3D3BF;
+  --color-golden-dark: #80562F;
+  --color-sage-dark: #4E6348;
   --holiday-pine: #304D40;
   --holiday-berry: #963F45;
   --holiday-paper: #FEFCF6;
   --holiday-strip-height: 40px;
 }
+.holiday-season .bake-bg {
+  background: linear-gradient(
+    to bottom,
+    #DFCCB4 0%,
+    #DCC5A7 12%,
+    #D8BD98 24%,
+    #D2B187 35%,
+    #C8A373 44%,
+    #BA8D57 52%,
+    #A8763C 60%,
+    #7E5733 67%,
+    #4F381F 77%,
+    #3D2B1F 86%,
+    #2C1E14 95%
+  );
+}
+.holiday-season .text-golden-dark { color: var(--color-golden-dark); }
+.holiday-season .text-sage-dark { color: var(--color-sage-dark); }
+.holiday-season header { background-color: color-mix(in srgb, var(--color-cream) 95%, transparent); }
 .holiday-season main { padding-top: var(--holiday-strip-height); }
 .holiday-strip {
   min-height: var(--holiday-strip-height);
