@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
+import { ClassPrice, HolidayTag } from "@/components/seasonal/Holiday";
+import { HOLIDAY_OFFER_ENABLED } from "@/lib/holiday";
 
 export default function Hero() {
   return (
@@ -48,10 +50,11 @@ export default function Hero() {
         <div className="flex items-center flex-wrap gap-4 mt-9 text-[13.5px] font-medium text-sage-dark">
           <span>Groups of 2–4</span>
           <span className="opacity-40">•</span>
-          <span>$95 per person</span>
+          <ClassPrice />
           <span className="opacity-40">•</span>
           <span>About 3 hours</span>
         </div>
+        {HOLIDAY_OFFER_ENABLED && <p className="mt-3 text-xs text-brown-medium">Holiday special · No code needed. Discount applied on baking day.</p>}
       </Reveal>
 
       {/* Photography — the star, no longer ghosted behind text */}
@@ -73,6 +76,7 @@ export default function Hero() {
             priority
           />
         </div>
+        <HolidayTag />
         <Link
           href="/about"
           className="absolute bottom-7 lg:bottom-12 -left-2 lg:-left-4 flex items-center gap-3 bg-warm-white rounded-2xl px-5 py-3 shadow-[0_18px_40px_-14px_rgba(92,61,46,0.45)] transition-transform duration-300 hover:-translate-y-0.5"

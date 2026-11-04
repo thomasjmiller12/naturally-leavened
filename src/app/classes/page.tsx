@@ -6,6 +6,7 @@ import FloatingParticles from "@/components/ui/FloatingParticles";
 import PolaroidStack from "@/components/classes/PolaroidStack";
 import UpcomingSessions from "@/components/classes/UpcomingSessions";
 import Testimonials from "@/components/classes/Testimonials";
+import { ClassPrice, HolidayOffer } from "@/components/seasonal/Holiday";
 import { TAKEAWAYS } from "@/lib/takeaways";
 
 const faqs = [
@@ -65,6 +66,7 @@ export default function ClassesPage() {
           thing visitors see is when they can come and how to reserve a seat. */}
       <section ref={bookingRef} className="py-20 sm:py-28 bg-warm-white/50">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
+          <HolidayOffer />
           {/* Upcoming dates */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -111,7 +113,7 @@ export default function ClassesPage() {
               {[
                 { label: "Location", value: "Castro Valley, CA" },
                 { label: "Class Size", value: "2–4 people" },
-                { label: "Investment", value: "$95 per person" },
+                { label: "Investment", value: <ClassPrice /> },
               ].map((pill) => (
                 <div
                   key={pill.label}
