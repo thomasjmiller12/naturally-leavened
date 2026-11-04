@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import HolidaySnow from "@/components/seasonal/HolidaySnow";
 import { HOLIDAY_OFFER_ENABLED } from "@/lib/holiday";
 
 const playfair = Playfair_Display({
@@ -49,6 +50,7 @@ export default function RootLayout({
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        {HOLIDAY_OFFER_ENABLED && <HolidaySnow />}
         <Analytics />
       </body>
     </html>
