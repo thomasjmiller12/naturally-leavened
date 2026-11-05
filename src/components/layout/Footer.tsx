@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { WinterSprig } from "@/components/seasonal/Holiday";
 import { HOLIDAY_OFFER_ENABLED } from "@/lib/holiday";
+import { CHRISTMAS_BAKERY_ENABLED } from "@/lib/christmas";
 
 export default function Footer() {
   return (
@@ -43,6 +44,11 @@ export default function Footer() {
                   {link.label}
                 </Link>
               ))}
+              {CHRISTMAS_BAKERY_ENABLED && (
+                <Link href="/christmas" className="hidden lg:block text-sm text-cream/60 hover:text-golden transition-colors duration-300">
+                  Our little Christmas bakery
+                </Link>
+              )}
             </nav>
           </div>
 
