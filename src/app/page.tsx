@@ -3,6 +3,8 @@ import WhatIsSourdough from "@/components/home/WhatIsSourdough";
 import FlourToLoaf from "@/components/home/FlourToLoaf";
 import InTheClass from "@/components/home/InTheClass";
 import BakeCTA from "@/components/home/BakeCTA";
+import ChristmasBakery from "@/components/seasonal/christmas/ChristmasBakery";
+import { CHRISTMAS_BAKERY_ENABLED } from "@/lib/christmas";
 
 export default function Home() {
   return (
@@ -17,6 +19,7 @@ export default function Home() {
       <FlourToLoaf />
       <InTheClass />
       <BakeCTA />
+      {CHRISTMAS_BAKERY_ENABLED && <ChristmasBakery variant="corner" />}
     </div>
   );
 }

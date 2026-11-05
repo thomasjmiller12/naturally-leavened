@@ -1,0 +1,45 @@
+.bakery { position: relative; isolation: isolate; pointer-events: none; }
+.corner { --corner-height: clamp(140px, calc(70dvh - 350px), 350px); position: fixed; z-index: 30; left: 0; bottom: 0; width: calc(var(--corner-height) * 68 / 35); height: var(--corner-height); opacity: var(--corner-opacity, 0); }
+.corner[data-scroll-state="hidden"] { visibility: hidden; }
+.corner:not([data-scroll-state="visible"]) .prop, .corner:not([data-scroll-state="visible"]) .controls { pointer-events: none; }
+.poster { object-fit: contain; pointer-events: none; transition: opacity 180ms; }
+.bakery[data-ready="true"] .poster { opacity: 0; }
+.canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; touch-action: none; }
+.targets { position: absolute; inset: 0; pointer-events: none; }
+.prop { position: absolute; padding: 0; border: 0; border-radius: 45%; background: transparent; pointer-events: auto; touch-action: none; cursor: grab; }
+.prop:active { cursor: grabbing; }
+.prop[hidden] { display: none; }
+.prop[data-prop^="tree-"], .prop[data-prop="sapling"] { clip-path: polygon(50% 0, 100% 88%, 61% 88%, 61% 100%, 39% 100%, 39% 88%, 0 88%); }
+.prop[data-prop="oven"] { z-index: 4; }
+.prop[data-prop="starter"], .prop[data-prop="bell"] { z-index: 5; }
+.frontProp { z-index: 6; }
+.prop[data-prop^="present-"] { z-index: 7; }
+.prop:focus-visible { outline: 2px dashed #9b4147; outline-offset: 3px; background: #f9ecd51c; }
+.controls { position: absolute; right: 11px; bottom: 0; display: flex; gap: 5px; opacity: 0; transition: opacity 150ms; pointer-events: auto; }
+.bakery:hover .controls, .bakery:focus-within .controls { opacity: 1; }
+.controls button { display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 1px solid #cfbf9f80; border-radius: 50%; color: #493a28; background: #f7eddbeb; font-size: 21px; line-height: 1; cursor: pointer; box-shadow: 0 2px 7px #30231314; }
+.controls button:hover { background: #fff8ed; }
+.controls button:focus-visible { outline: 2px solid #9b4147; outline-offset: 4px; }
+.controls button:disabled { opacity: .45; }
+.screenReader { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.fullPage { min-height: 85vh; padding: 140px 24px 40px; background: radial-gradient(ellipse at 50% 45%, #365b4f, #243d32 75%); }
+.fullInner { max-width: 1100px; margin: 0 auto; }
+.backLink { display: inline-block; color: #eee0c9; font-size: 13px; border-bottom: 1px solid #e8c9a060; padding-bottom: 4px; }
+.backLink:hover { color: #fff8f0; }
+.fullBakery { width: 100%; height: min(72vh, 740px); min-height: 390px; }
+.fullBakery .controls { right: 25px; bottom: 18px; opacity: 1; }
+.fullBakery .controls button { width: 40px; height: 40px; }
+
+@media (width < 64rem) {
+  .corner { display: none; }
+}
+
+@media (max-width: 767px) {
+  .fullPage { padding: 130px 12px 24px; }
+  .fullPage .backLink { margin-left: 12px; }
+  .fullBakery { height: 66vh; min-height: 400px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .corner, .poster, .controls { transition: none; }
+}

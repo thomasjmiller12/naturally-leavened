@@ -3,16 +3,17 @@ import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import { ClassPrice, HolidayTag } from "@/components/seasonal/Holiday";
 import { HOLIDAY_OFFER_ENABLED } from "@/lib/holiday";
+import { CHRISTMAS_BAKERY_ENABLED } from "@/lib/christmas";
 
 export default function Hero() {
   return (
     <section className="relative min-h-dvh grid grid-cols-1 lg:grid-cols-[1fr_0.9fr] items-center gap-8 lg:gap-10 max-w-7xl mx-auto px-6 lg:px-8 pt-28 lg:pt-32 pb-16">
       {/* Copy */}
-      <Reveal className="max-w-xl order-2 lg:order-1">
+      <Reveal className={`max-w-xl order-2 lg:order-1 ${CHRISTMAS_BAKERY_ENABLED ? "lg:relative lg:bottom-[clamp(5rem,calc(25dvh-7rem),7.5rem)] lg:max-w-none" : ""}`}>
         <p className="text-[11px] tracking-[0.32em] uppercase text-golden-dark mb-6">
           Small-batch sourdough &middot; Castro Valley, CA
         </p>
-        <h1 className="font-serif text-5xl sm:text-6xl lg:text-[4.5rem] leading-[1.02] text-brown-dark [letter-spacing:-0.4px]">
+        <h1 className={`font-serif text-5xl sm:text-6xl ${CHRISTMAS_BAKERY_ENABLED ? "lg:text-[clamp(3rem,5vw,4rem)]" : "lg:text-[4.5rem]"} leading-[1.02] text-brown-dark [letter-spacing:-0.4px]`}>
           Sourdough is simpler
           <br />
           than you <em className="italic text-golden-dark">think.</em>
