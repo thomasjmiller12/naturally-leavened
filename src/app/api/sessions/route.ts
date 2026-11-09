@@ -24,7 +24,6 @@ const WEEKS_AHEAD = 52; // how far out to surface classes (a full year, so every
 
 // Always fetch live from Cal.com — every visitor (and every page refresh) sees
 // the current dates the moment Haylee changes them, with no caching delay.
-// Traffic here is low, so the two small Cal.com calls per visit are a non-issue.
 export const dynamic = "force-dynamic";
 
 type RangeSlot = {
@@ -50,6 +49,44 @@ async function cal(path: string, version: string) {
   return res.json();
 }
 
+type Booking = {
+  eventTypeId: number;
+  status: string;
+  start: string;
+  end: string;
+  attendees: unknown[];
+};
+
+async function getFullBookings(capacity: number, now: number, end: number) {
+  const full: Booking[] = [];
+  const take = 100;
+  let skip = 0;
+  let hasNextPage: boolean;
+
+  do {
+    const page = await cal(
+      `/bookings?eventTypeId=${EVENT_TYPE_ID}&status=upcoming&take=${take}&skip=${skip}`,
+      "2024-08-13",
+    );
+    for (const booking of page.data as Booking[]) {
+      const startMs = Date.parse(booking.start);
+      if (
+        booking.eventTypeId === EVENT_TYPE_ID &&
+        booking.status === "accepted" &&
+        startMs > now &&
+        startMs <= end &&
+        booking.attendees.length >= capacity
+      ) {
+        full.push(booking);
+      }
+    }
+    skip += take;
+    hasNextPage = page.pagination?.hasNextPage === true;
+  } while (hasNextPage);
+
+  return full;
+}
+
 export async function GET() {
   if (!API_KEY) {
     return NextResponse.json({ configured: false, sessions: [] });
@@ -64,21 +101,43 @@ export async function GET() {
 
     const now = Date.now();
     const start = new Date(now + 60_000).toISOString(); // strictly future
-    const end = new Date(now + WEEKS_AHEAD * 7 * 86_400_000).toISOString();
+    const end = new Date(now + WEEKS_AHEAD * 7 * 86_400_000);
 
-    // format=range returns attendeesCount per slot for seated events.
-    const slotsRes = await cal(
-      `/slots?eventTypeId=${EVENT_TYPE_ID}&start=${start}&end=${end}&timeZone=${encodeURIComponent(
-        TIMEZONE,
-      )}&format=range`,
-      "2024-09-04",
-    );
+    const [slotsRes, fullBookings] = await Promise.all([
+      cal(
+        `/slots?eventTypeId=${EVENT_TYPE_ID}&start=${start}&end=${end.toISOString()}&timeZone=${encodeURIComponent(
+          TIMEZONE,
+        )}&format=range`,
+        "2024-09-04",
+      ),
+      capacity
+        ? getFullBookings(capacity, now, end.getTime()).catch(() => [])
+        : [],
+    ]);
     const byDay: Record<string, RangeSlot[]> = slotsRes.data ?? {};
+
+    // Cal.com omits full classes from availability. Prefer live slots if both
+    // feeds include a class, including when a cancellation reopens a seat.
+    const seen = new Set(
+      Object.values(byDay).flatMap((slots) => slots.map((slot) => Date.parse(slot.start))),
+    );
+    const localDate = new Intl.DateTimeFormat("sv-SE", { timeZone: TIMEZONE });
+    for (const booking of fullBookings) {
+      const startMs = Date.parse(booking.start);
+      if (seen.has(startMs)) continue;
+      seen.add(startMs);
+      const day = localDate.format(startMs);
+      (byDay[day] ??= []).push({
+        start: booking.start,
+        end: booking.end,
+        seatsRemaining: 0,
+      });
+    }
 
     const sessions: Array<{
       start: string;
       durationMins: number;
-      spotsLeft: number;
+      spotsLeft: number | null;
       url: string;
       calLink: string;
       date: string;
@@ -90,11 +149,12 @@ export async function GET() {
         const taken = slot.seatsBooked ?? slot.attendeesCount ?? 0;
         const spotsLeft =
           slot.seatsRemaining ??
-          (slotCapacity ? Math.max(0, slotCapacity - taken) : 0);
-        if (slotCapacity && spotsLeft <= 0) continue; // full → don't show
+          (slotCapacity ? Math.max(0, slotCapacity - taken) : null);
         sessions.push({
           start: slot.start,
-          durationMins,
+          durationMins: slot.end
+            ? (Date.parse(slot.end) - Date.parse(slot.start)) / 60_000
+            : durationMins,
           spotsLeft,
           url: `https://cal.com/${USERNAME}/${EVENT_SLUG}?month=${day.slice(
             0,
@@ -106,7 +166,7 @@ export async function GET() {
       }
     }
 
-    sessions.sort((a, b) => a.start.localeCompare(b.start));
+    sessions.sort((a, b) => Date.parse(a.start) - Date.parse(b.start));
     return NextResponse.json({ configured: true, timezone: TIMEZONE, sessions });
   } catch (error) {
     // Never break the booking section on an API hiccup.

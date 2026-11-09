@@ -15,7 +15,7 @@ const FULL_CALENDAR_URL = `https://cal.com/${CAL_LINK}`;
 type ApiSession = {
   start: string; // ISO with offset, e.g. "2026-06-13T10:00:00.000-07:00"
   durationMins: number;
-  spotsLeft: number;
+  spotsLeft: number | null;
   url: string; // Cal.com booking URL (fallback if popup JS unavailable)
   calLink: string; // "username/event-slug" for the embed
   date: string; // "YYYY-MM-DD" for deep-linking the popup
@@ -67,8 +67,9 @@ function fmtMonthDay(iso: string, timezone: string) {
   }).format(new Date(iso));
 }
 
-function spotsNote(spotsLeft: number) {
-  if (spotsLeft <= 0) return null;
+function spotsNote(spotsLeft: number | null) {
+  if (spotsLeft === null) return null;
+  if (spotsLeft <= 0) return "Sold out";
   if (spotsLeft === 1) return "Last seat";
   return `${spotsLeft} spots left`;
 }
@@ -141,6 +142,7 @@ export default function UpcomingSessions() {
             }`}
           >
             {state.sessions.map((session) => {
+              const soldOut = session.spotsLeft !== null && session.spotsLeft <= 0;
               const note = spotsNote(session.spotsLeft);
               const startMs = new Date(session.start).getTime();
               const endIso = new Date(
@@ -169,24 +171,30 @@ export default function UpcomingSessions() {
                   <p className="text-sm text-brown-light/80 mt-2">{timeLabel}</p>
 
                   {note && (
-                    <span className="inline-flex self-start items-center mt-4 text-[11px] font-medium tracking-wide uppercase text-sage-dark bg-sage/10 border border-sage/20 rounded-full px-3 py-1">
+                    <span className={`inline-flex self-start items-center mt-4 text-[11px] font-medium tracking-wide uppercase border rounded-full px-3 py-1 ${
+                      soldOut
+                        ? "text-brown-dark bg-golden/10 border-golden/25"
+                        : "text-sage-dark bg-sage/10 border-sage/20"
+                    }`}>
                       {note}
                     </span>
                   )}
 
-                  <div className="mt-6 pt-5 border-t border-golden/10">
-                    <a
-                      href={session.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-cal-link={session.calLink}
-                      data-cal-config={calConfig}
-                      className="inline-flex items-center gap-2.5 text-sm font-semibold tracking-wider uppercase text-golden-dark transition-colors duration-300 hover:text-brown-dark cursor-pointer"
-                    >
-                      Reserve this seat
-                      <ArrowIcon />
-                    </a>
-                  </div>
+                  {!soldOut && (
+                    <div className="mt-6 pt-5 border-t border-golden/10">
+                      <a
+                        href={session.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        data-cal-link={session.calLink}
+                        data-cal-config={calConfig}
+                        className="inline-flex items-center gap-2.5 text-sm font-semibold tracking-wider uppercase text-golden-dark transition-colors duration-300 hover:text-brown-dark cursor-pointer"
+                      >
+                        Reserve this seat
+                        <ArrowIcon />
+                      </a>
+                    </div>
+                  )}
                 </div>
               );
             })}
